@@ -12,6 +12,8 @@ BG = transform.scale(image.load('sprites/galaxy.jpg'), (700, 600))
 run = True
 clock = time.Clock()
 move2 = ''
+win1 = 0
+win2 = 0
 
 
 class GameSprite(sprite.Sprite):
@@ -49,6 +51,8 @@ class Ball(GameSprite):
     def start(self):
         global move2
         a = randint(1, 2)
+        self.rect.x = 340
+        self.rect.y = 290
         if a == 1:
             self.move = 'up'
         else:
@@ -59,7 +63,7 @@ class Ball(GameSprite):
         else:
             move2 = 'left'
     def update(self):
-        global move2
+        global move2, win1, win2
 
         if self.rect.y <= 0:
             self.move = 'down'
@@ -78,6 +82,12 @@ class Ball(GameSprite):
         elif move2 == 'left':
             self.rect.x -= self.speed
 
+        if self.rect.x <= -20:
+            win1 += 1
+            self.start()
+        elif self.rect.x >= 720:
+            win2 += 1
+            self.start()
 
 
 

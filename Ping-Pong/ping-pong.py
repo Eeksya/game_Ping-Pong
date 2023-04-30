@@ -7,13 +7,16 @@ font.init()
 mw = display.set_mode((700,600))
 display.set_caption('Ping-Pong')
 BG = transform.scale(image.load('sprites/galaxy.jpg'), (700, 600))
-
+winner2_txt = font.SysFont('Verdana', 35).render('Победил 1 игрок', True, (152, 251, 56))
+winner1_txt = font.SysFont('Verdana', 35).render('Победил 2 игрок', True, (152, 251, 56))
+restart_txt = font.SysFont('Verdana', 25).render('R чтобы перезапустить', True, (150, 150, 150))
 
 run = True
 clock = time.Clock()
 move2 = ''
 win1 = 0
 win2 = 0
+finish = False
 
 
 class GameSprite(sprite.Sprite):
@@ -91,23 +94,46 @@ class Ball(GameSprite):
 
 
 
-ball = Ball(340, 290, 20, 20, "sprites/ball.png", 10)
+ball = Ball(340, 290, 30, 30, "sprites/ball.png", 10)
 ball.start()
+
+def start_game():
+    global win1, win2, finish, ball
+    ball.start()
+    win1 = 0
+    win2 = 0
+    finish = False
 
 while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
-    if sprite.collide_rect(player1, ball):
-        move2 = 'right'
-    elif sprite.collide_rect(player2, ball):
-        move2 = 'left'
-    mw.blit(BG, (0,0))
-    player1.reset()
-    player1.update()
-    player2.reset()
-    player2.update2()
-    ball.reset()
-    ball.update()
+    if not finish:
+        if sprite.collide_rect(player1, ball):
+            move2 = 'right'
+        elif sprite.collide_rect(player2, ball):
+            move2 = 'left'
+        mw.blit(BG, (0,0))
+        player1.reset()
+        player1.update()
+        player2.reset()
+        player2.update2()
+        ball.reset()
+        ball.update()
+        win1_txt = font.SysFont('Verdana', 20).render('Очки 1:' + str(win2), True, (255, 255, 255))
+        win2_txt = font.SysFont('Verdana', 20).render('Очки 2:' + str(win1), True, (255, 255, 255))
+        mw.blit(win1_txt, (20, 5))
+        mw.blit(win2_txt, (580, 5))
+        if win1 == 3:
+            mw.blit(winner1_txt, (200, 270))  
+            finish = True
+        elif win2 == 3:
+            mw.blit(winner2_txt, (200, 270)) 
+            finish = True
+    if finish:
+        keys = key.get_pressed()
+        if keys[K_r]:
+            start_game()
+        mw.blit(restart_txt, (200, 320))
     display.update()
     clock.tick(60)

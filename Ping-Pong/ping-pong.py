@@ -6,10 +6,10 @@ font.init()
 
 mw = display.set_mode((700,600))
 display.set_caption('Ping-Pong')
-BG = transform.scale(image.load('sprites/galaxy.jpg'), (700, 600))
-winner2_txt = font.SysFont('Verdana', 35).render('Победил 1 игрок', True, (152, 251, 56))
-winner1_txt = font.SysFont('Verdana', 35).render('Победил 2 игрок', True, (152, 251, 56))
-restart_txt = font.SysFont('Verdana', 25).render('R чтобы перезапустить', True, (150, 150, 150))
+BG = transform.scale(image.load('sprites/BG.jpg'), (700, 600))
+winner2_txt = font.SysFont('Verdana', 35).render('Победил 1 игрок', True, (12, 177, 35))
+winner1_txt = font.SysFont('Verdana', 35).render('Победил 2 игрок', True, (12, 177, 35))
+restart_txt = font.SysFont('Verdana', 25).render('R чтобы перезапустить', True, (60, 60, 60))
 
 run = True
 clock = time.Clock()
@@ -46,8 +46,8 @@ class Player(GameSprite):
             self.rect.y += self.speed
 
 
-player1 = Player(20, 10, 25, 150, 'sprites/platform1.png', 10)
-player2 = Player(660, 430, 25, 150, 'sprites/platform2.png', 10)
+player1 = Player(20, 10, 25, 150, 'sprites/platform.png', 10)
+player2 = Player(660, 430, 25, 150, 'sprites/platform.png', 10)
 
 
 class Ball(GameSprite):
